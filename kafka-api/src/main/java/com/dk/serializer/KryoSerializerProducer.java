@@ -33,7 +33,7 @@ public class KryoSerializerProducer {
         Producer<String, Teacher> producer = new KafkaProducer<>(props);
 
 
-        Teacher teacher = new Teacher("qingshan",18,"13677778888");
+        Teacher teacher = new Teacher("dk",24,"13288993228");
         producer.send(new ProducerRecord<>("ser-topic", "1", teacher));
 
         producer.close();

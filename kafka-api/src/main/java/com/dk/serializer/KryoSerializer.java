@@ -11,13 +11,14 @@ import org.objenesis.strategy.StdInstantiatorStrategy;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * @author DK
  * @version 1.0
  * @date 2020-06-17 14:15
  **/
-public class KryoSerializer<T> implements Serializer<T> {
+public class KryoSerializer<T> implements Serializer<T>, Deserializer<T> {
     private static final ThreadLocal<Kryo> KRYO_THREAD_LOCAL = ThreadLocal.withInitial(() -> {
         Kryo kryo = new Kryo();
         //设置是否注册全限定名，
@@ -30,6 +31,11 @@ public class KryoSerializer<T> implements Serializer<T> {
         return kryo;
     });
 
+
+    @Override
+    public void configure(Map<String, ?> configs, boolean isKey) {
+
+    }
 
     @Override
     public byte[] serialize(String s, T obj) {
@@ -45,8 +51,19 @@ public class KryoSerializer<T> implements Serializer<T> {
         return new byte[0];
     }
 
+    @Override
+    public byte[] serialize(String topic, Headers headers, T data) {
+        return this.serialize(topic, data);
+    }
+
+    @Override
+    public void close() {
+
+    }
+
     @SuppressWarnings({"unchecked"})
-    public T deserialize(byte[] bytes) {
+    @Override
+    public T deserialize(String s, byte[] bytes) {
         Kryo kryo = KRYO_THREAD_LOCAL.get();
         try (ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
              Input input = new Input(inputStream)) {
@@ -55,6 +72,11 @@ public class KryoSerializer<T> implements Serializer<T> {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public T deserialize(String topic, Headers headers, byte[] data) {
+        return this.deserialize(topic, data);
     }
 
 
