@@ -14,7 +14,7 @@ import java.util.*;
  **/
 public class TopicManage {
     public static void main(String[] args) throws Exception {
-        createTopic(Collections.singletonList("test2"));
+        createTopic(Collections.singletonList("ser-topic"));
     }
 
     /**
