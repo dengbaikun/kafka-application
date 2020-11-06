@@ -52,11 +52,6 @@ public class KryoSerializer<T> implements Serializer<T>, Deserializer<T> {
     }
 
     @Override
-    public byte[] serialize(String topic, Headers headers, T data) {
-        return this.serialize(topic, data);
-    }
-
-    @Override
     public void close() {
 
     }
@@ -74,10 +69,6 @@ public class KryoSerializer<T> implements Serializer<T>, Deserializer<T> {
         return null;
     }
 
-    @Override
-    public T deserialize(String topic, Headers headers, byte[] data) {
-        return this.deserialize(topic, data);
-    }
 
 
 }
