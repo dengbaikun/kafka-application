@@ -1,4 +1,4 @@
-package admin;
+package com.dk.admin;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;

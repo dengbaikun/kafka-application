@@ -1,4 +1,4 @@
-package simple;
+package com.dk.simple;
 
 /**
  * @author DK

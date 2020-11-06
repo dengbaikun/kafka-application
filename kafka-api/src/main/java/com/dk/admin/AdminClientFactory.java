@@ -1,4 +1,4 @@
-package admin;
+package com.dk.admin;
 
 import com.google.common.collect.Maps;
 import org.apache.kafka.clients.admin.AdminClient;
