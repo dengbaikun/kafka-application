@@ -6,20 +6,20 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Properties;
 
 /**
  * @author DK
- * @version 1.
- * 0
+ * @version 1.0
  * @date 2020/11/5 11:48 下午
  */
 public class SimpleConsumer {
     public static void main(String[] args) {
         Properties props= new Properties();
         //props.put("bootstrap.servers","192.168.44.161:9093,192.168.44.161:9094,192.168.44.161:9095");
-        props.put("bootstrap.servers","127.0.0.1:9092");
-        props.put("group.id","gp-test-group");
+        props.put("bootstrap.servers","192.168.32.4:9092");
+        props.put("group.id","test-group");
         // 是否自动提交偏移量，只有commit之后才更新消费组的 offset
         props.put("enable.auto.commit","true");
         // 消费者自动提交的间隔
@@ -31,7 +31,7 @@ public class SimpleConsumer {
 
         KafkaConsumer<String,String> consumer=new KafkaConsumer<String, String>(props);
         // 订阅topic
-        consumer.subscribe(Arrays.asList("gptest"));
+        consumer.subscribe(Collections.singletonList("test2"));
 
         try {
             while (true){

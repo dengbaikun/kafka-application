@@ -8,15 +8,14 @@ import java.util.Properties;
 
 /**
  * @author DK
- * @version 1.
- * 0
+ * @version 1.0
  * @date 2020/11/5 11:49 下午
  */
 public class  SimpleProducer {
     public static void main(String[] args) {
         Properties pros=new Properties();
         //pros.put("bootstrap.servers","192.168.44.161:9093,192.168.44.161:9094,192.168.44.161:9095");
-        pros.put("bootstrap.servers","127.0.0.1:9092");
+        pros.put("bootstrap.servers","192.168.32.4:9092");
         pros.put("key.serializer","org.apache.kafka.common.serialization.StringSerializer");
         pros.put("value.serializer","org.apache.kafka.common.serialization.StringSerializer");
         // 0 发出去就确认 | 1 leader 落盘就确认| all(-1) 所有Follower同步完才确认
@@ -36,7 +35,7 @@ public class  SimpleProducer {
         Producer<String,String> producer = new KafkaProducer<String,String>(pros);
 
         for (int i =0 ;i<10;i++) {
-            producer.send(new ProducerRecord<String,String>("gptest",Integer.toString(i),Integer.toString(i)));
+            producer.send(new ProducerRecord<String,String>("test2","test-string-key"+i,"test-string-value"+i));
             // System.out.println("发送:"+i);
         }
 

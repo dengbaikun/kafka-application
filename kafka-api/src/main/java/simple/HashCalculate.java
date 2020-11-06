@@ -2,8 +2,7 @@ package simple;
 
 /**
  * @author DK
- * @version 1.
- * 0
+ * @version 1.0
  * @date 2020/11/5 11:48 下午
  */
 public class HashCalculate {
