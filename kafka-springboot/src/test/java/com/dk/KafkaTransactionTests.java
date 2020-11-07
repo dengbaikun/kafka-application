@@ -15,7 +15,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 class KafkaTransactionTests {
 
     @Autowired
-    private KafkaTemplate<String,Object> kafkaTemplate;
+    private KafkaTemplate<String,String> kafkaTemplate;
 
     // 消费者：先启动 kafkaApp
     //  Must set acks to all in order to use the idempotent producer.

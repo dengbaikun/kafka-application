@@ -1,10 +1,12 @@
-package com.dk;
+package com.dk.config;
 
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author: qingshan
- */
+ * @author DK
+ * @version 1.0
+ * @date 2020/11/6 10:12
+ **/
 @Configuration
 public class KafkaConfig {
 /*    @Value("${spring.kafka.bootstrap-servers}")
