@@ -1,0 +1,24 @@
+server:
+  port: 7271
+#spring.kafka.bootstrap-servers=192.168.44.161:9093,192.168.44.161:9094,192.168.44.161:9095
+spring:
+  kafka:
+    bootstrap-servers: 192.168.32.5:9092,192.168.32.6:9092,192.168.32.7:9092
+# producer
+    producer:
+      retries: 1
+      batch-size: 16384
+      buffer-memory: 33554432
+      acks: all
+      properties:
+        linger:
+          ms: 5
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+# consumer
+    consumer:
+      auto-commit-interval: 1000
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
