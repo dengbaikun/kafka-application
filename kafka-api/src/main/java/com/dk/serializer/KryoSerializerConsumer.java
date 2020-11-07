@@ -16,7 +16,7 @@ import java.util.Properties;
 public class KryoSerializerConsumer {
     public static void main(String[] args) {
         Properties props = new Properties();
-        props.put("bootstrap.servers", "192.168.32.4:9092");
+        props.put("bootstrap.servers", "192.168.32.5:9092,192.168.32.6:9092,192.168.32.7:9092");
         props.put("group.id", "gp-ser-group");
         // 是否自动提交偏移量，只有commit之后才更新消费组的 offset
         props.put("enable.auto.commit", "true");

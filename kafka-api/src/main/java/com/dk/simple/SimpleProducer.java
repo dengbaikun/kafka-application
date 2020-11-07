@@ -14,8 +14,7 @@ import java.util.Properties;
 public class  SimpleProducer {
     public static void main(String[] args) {
         Properties pros=new Properties();
-        //pros.put("bootstrap.servers","192.168.44.161:9093,192.168.44.161:9094,192.168.44.161:9095");
-        pros.put("bootstrap.servers","192.168.32.4:9092");
+        pros.put("bootstrap.servers","192.168.32.5:9092,192.168.32.6:9092,192.168.32.7:9092");
         pros.put("key.serializer","org.apache.kafka.common.serialization.StringSerializer");
         pros.put("value.serializer","org.apache.kafka.common.serialization.StringSerializer");
         // 0 发出去就确认 | 1 leader 落盘就确认| all(-1) 所有Follower同步完才确认

@@ -14,7 +14,9 @@ import java.util.*;
  **/
 public class TopicManage {
     public static void main(String[] args) throws Exception {
-        createTopic(Collections.singletonList("ser-topic"));
+//        createTopic(Collections.singletonList("ser-topic"));
+//        describeTopics(Collections.singletonList("ser-topic"));
+        updateTopicPartition(Collections.singletonList("ser-topic"), 9);
     }
 
     /**
@@ -33,7 +35,7 @@ public class TopicManage {
          * short replicationFactor    副本数,必须不能大于broker数量
          */
         topicNames.forEach(topicName -> topicList.add(
-                new NewTopic(topicName, 1, Short.parseShort("1"))));
+                new NewTopic(topicName, 3, Short.parseShort("2"))));
 
         // 创建topic
         CreateTopicsResult result = adminClient.createTopics(topicList);
