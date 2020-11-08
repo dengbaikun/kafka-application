@@ -34,7 +34,7 @@ public class InterceptorProducer {
 
         // 添加拦截器
         List<String> interceptors = new ArrayList<>();
-        interceptors.add("com.qingshan.interceptor.ChargingInterceptor");
+        interceptors.add("com.dk.interceptor.ChargingInterceptor");
         props.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, interceptors);
 
         Producer<String,String> producer = new KafkaProducer<String,String>(props);

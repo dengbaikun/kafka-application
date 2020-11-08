@@ -53,7 +53,8 @@ public class TransactionProducer {
             // 中止事务
             producer.abortTransaction();
         }
-
+        ///用于一个方法提交事务
+        ///producer.sendOffsetsToTransaction();
 
         producer.close();
     }

@@ -1,5 +1,7 @@
-#kafka使用
-##单机搭建
+# kafka使用
+
+## 单机搭建
+
 启动zookeeper
 kafka需要依赖ZK，安装包中已经自带了一个ZK，也可以改成指定已运行的ZK。
 如果改成指定的ZK需要修改修改 kafka 安装目录下的 config/server.properties 文件中的 zookeeper.connect 。这里使用自带的ZK。
@@ -58,7 +60,9 @@ Producer窗口发送消息
 2、删除kafka存储目录（server.properties文件log.dirs配置，默认为“/tmp/kafka-logs”）全部topic的数据目录；
 3、删除zookeeper上与kafka相关的znode节点；除了/zookeeper
 4、重启kafka。
-##基本命令使用
+
+## 基本命令使用
+
 一、脚本概览
 bin目录下的脚本作用
 
@@ -155,3 +159,106 @@ C、在ZooKeeper中执行rmr /controller，触发Controller重选举，刷新Con
 ```shell script
 ./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic __consumer_offsets --formatter "kafka.coordinator.group.GroupMetadataManager\$OffsetsMessageFormatter" --from-beginning
 ```
+
+## 基于Canal和Kafka实现数据同步
+
+在目标数据库上创建用户和数据库
+
+```text
+数据库首先要开启binlog，binlog-format必须是ROW
+log-bin=/var/lib/mysql/mysql-bin
+binlog-format=ROW
+-- 创建canal专用的用户，用于访问master获取binlog
+
+GRANT ALL PRIVILEGES ON *.* TO 'canal'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION;
+
+-- 给canal用户分配查询和复制的权限
+GRANT SELECT, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO canal@'%';
+
+-- 刷新权限
+FLUSH PRIVILEGES;
+
+ALTER USER 'canal'@'%' IDENTIFIED WITH mysql_native_password BY '123456';
+
+-- 创建测试数据库
+CREATE DATABASE `canaltest` CHARSET `utf8mb4` COLLATE `utf8mb4_unicode_ci`;
+```
+ 下载安装canal
+ ```text
+cd /usr/local/soft/
+mkdir canal
+cd canal
+wget https://github.com/alibaba/canal/releases/download/canal-1.1.4/canal.deployer-1.1.4.tar.gz
+tar -zxvf canal.deployer-1.1.4.tar.gz
+ ```
+
+需要修改的配置项：
+conf/canal.properties
+```text
+canal.serverMode=kafka
+canal.mq.servers = 192.168.44.160:9092
+```
+example/instance.properties
+```text
+canal.instance.master.address=192.168.44.121:3306
+canal.instance.dbUsername=canal
+canal.instance.dbPassword=123456
+# 新增
+canal.instance.defaultDatabaseName=canaltest
+# 这个topic会自动创建
+canal.mq.topic=canal-topic
+```
+
+在bin目录下启动canal
+```text
+sh startup.sh 
+# 查看实例日志
+tail -100f /usr/local/soft/canal/logs/canal/canal.log
+```
+
+建表测试
+```text
+在canaltest数据库随便建一张表，做增删改的操作。
+
+在kafka服务器上消费这个topic
+./kafka-console-consumer.sh --bootstrap-server 192.168.44.160:9092 --topic canal-topic
+```
+
+## 消息幂等性
+
+1、PID(Producter ID)
+
+2、sequ number
+
+## 事务
+
+### 什么时候需要事务
+
+1、发送多条消息
+
+2、发送消息到多个topic或者多个partition
+
+3、消费以后发出消息 consumer-process-produce
+
+### 事务的实现原理
+
+1、2PC
+
+2、Transaction Coordinator
+
+3、事务日志：topic_transaction_state
+
+4、生产者事务ID:transaction.id
+
+### 事务操作流程
+
+A:生产者通过initTransaction API向Coordinator注册事务ID
+
+B:Coordinator记录事务日志
+
+C:生产者把消息写入目标分区
+
+D:分区和Coordinator的交互，当事务完成以后，消息的状态应该是已提交，这样消费者才可以消费到消息
+
+# kafka原理
+
