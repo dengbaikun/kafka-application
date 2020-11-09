@@ -5,7 +5,11 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
 import java.util.Properties;
-
+/**
+ * @author DK
+ * @version 1.0
+ * @date 2020/11/7 17:57
+ **/
 public class IdempotenceProducer {
     public static void main(String[] args) {
         Properties props=new Properties();

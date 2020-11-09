@@ -13,8 +13,10 @@ import java.time.Duration;
 import java.util.*;
 
 /**
- * @author: qingshan
- */
+ * @author DK
+ * @version 1.0
+ * @date 2020/11/7 17:57
+ **/
 public class TimestampConsumer {
     public static void main(String[] args) {
         Properties props = new Properties();

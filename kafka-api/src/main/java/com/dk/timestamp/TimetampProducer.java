@@ -7,8 +7,10 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import java.util.Properties;
 
 /**
- * @author: qingshan
- */
+ * @author DK
+ * @version 1.0
+ * @date 2020/11/7 17:57
+ **/
 public class TimetampProducer {
     public static void main(String[] args) {
         Properties props=new Properties();
