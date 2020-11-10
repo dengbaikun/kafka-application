@@ -14,7 +14,7 @@ import java.util.*;
  **/
 public class TopicManage {
     public static void main(String[] args) throws Exception {
-        createTopic(Collections.singletonList("dk-topic"));
+        createTopic(Collections.singletonList("device"));
 //        describeTopics(Collections.singletonList("ser-topic"));
 //        updateTopicPartition(Collections.singletonList("ser-topic"), 9);
     }

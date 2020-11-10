@@ -5,10 +5,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * @author DK
@@ -19,7 +16,7 @@ public class CommitConsumer {
     public static void main(String[] args) {
         Properties props= new Properties();
         props.put("bootstrap.servers","192.168.32.5:9092,192.168.32.6:9092,192.168.32.7:9092");
-        props.put("group.id","gp-test-group1");
+        props.put("group.id","device-group");
         // 是否自动提交偏移量，只有commit之后才更新消费组的 offset
         props.put("enable.auto.commit","true");
         // 消费者自动提交的间隔
@@ -31,7 +28,7 @@ public class CommitConsumer {
 
         KafkaConsumer<String,String> consumer=new KafkaConsumer<String, String>(props);
         // 订阅 topic
-        consumer.subscribe(Arrays.asList("commit-test"));
+        consumer.subscribe(Collections.singletonList("device"));
 
         final int minBatchSize = 200;
         List<ConsumerRecord<String, String>> buffer = new ArrayList<>();
