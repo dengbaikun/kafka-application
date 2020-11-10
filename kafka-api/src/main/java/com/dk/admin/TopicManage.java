@@ -14,7 +14,7 @@ import java.util.*;
  **/
 public class TopicManage {
     public static void main(String[] args) throws Exception {
-        createTopic(Collections.singletonList("springboottopic"));
+        createTopic(Collections.singletonList("dk-topic"));
 //        describeTopics(Collections.singletonList("ser-topic"));
 //        updateTopicPartition(Collections.singletonList("ser-topic"), 9);
     }

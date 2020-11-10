@@ -1,4 +1,4 @@
-# kafka使用
+# [kafka使用](http://kafka.apache.org/)
 
 ## 单机搭建
 
@@ -270,10 +270,84 @@ D:分区和Coordinator的交互，当事务完成以后，消息的状态应该�
 
 # kafka原理
 
-acks
+## acks
 
 1、ack=0 不需要确认
 
 2、ack=1 leader 确定
 
 3、ack=-1/all leader及其follower确认
+
+## 索引
+
+1、采用稀疏索引
+
+2、O(log2n)+O(m) n索引文件个数，m稀疏程度
+
+.index偏移量(offset)索引文件
+
+.timeindex时间戳(timestamp)索引文件
+
+log.message.timestamp.type=CreateTime/LogAppendTime
+
+### 索引检索过程
+
+1、根据offset判断在哪个segment中
+
+2、在segment的indexfile中，根据offset找到消息的partition
+
+2、根据partition从log文件中比较，最终找到消息
+
+### segment创建由log时间或大小以及索引文件大小
+
+1、log.segment.bytes
+
+2、log.roll.hours
+
+3、log.roll.ms
+
+4、log.index.size.max.bytes
+
+## 清理日志策略
+
+开关：log.cleaner.enable=true
+
+策略：log.cleanup.policy=delete/compact
+
+周期：log.retention.check.intervalms=300000
+
+过期定义：
+
+log.retention.hours
+
+log.retention.minutes
+
+log.retention.ms
+
+文件限制
+
+log.retention.bytes
+
+log.segment.bytes   
+
+## 高可用架构之leader选举
+
+1、谁来主持选举？Broker Controller ZK/controller
+
+2、谁可以参加选举？AR = ISR{}+OSR 不采用Zab，Raft，采用贴近PacificA
+
+3、主从如何同步？
+
+LEO(Log End Offset)：下一跳等待写入的消息的offset（最新的offset+1）
+
+HW(High Watermark)：ISR中最小的LEO
+
+* Follower节点会向Leader发送一个fetch请求，leader向follower发送数据后，需要更新follower的LEO
+* follower接收到数据响应后，依次写入消息并且更新LEO
+* Leader更新HW(ISR最小的LEO)
+
+## _consumer_offset存储结构
+
+GroupMetadata：保存了消费者组中各个消费者的信息（每个消费者都有编号）
+
+OffsetAndMetadata：保存了消费者组和各个partition的offset位移信息元数据
