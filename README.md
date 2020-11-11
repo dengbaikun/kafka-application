@@ -351,3 +351,27 @@ HW(High Watermark)：ISR中最小的LEO
 GroupMetadata：保存了消费者组中各个消费者的信息（每个消费者都有编号）
 
 OffsetAndMetadata：保存了消费者组和各个partition的offset位移信息元数据
+
+## kafka为什么这么快
+
+* 顺序读写
+* 索引
+* 批量读写和文件压缩
+* 零拷贝 （sendfile()）
+
+# cmak
+
+kafka启动加 
+
+```shell
+JMX_PORT=9999 bin/kafka-server-start.sh -daemon config/server.properties 
+```
+
+修改kafka-run-class.sh,当前hostname则是可以访问，增加“-Djava.rmi.server.hostname=192.168.2.128”
+
+```shell
+if [ -z "$KAFKA_JMX_OPTS" ]; then
+KAFKA_JMX_OPTS="-Djava.rmi.server.hostname={hostname} -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false "
+fi
+```
+
