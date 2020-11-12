@@ -7,6 +7,7 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Properties;
 
 /**
@@ -33,7 +34,7 @@ public class TransactionConsumer {
 
         KafkaConsumer<String,String> consumer=new KafkaConsumer<String, String>(props);
         // 订阅 topic
-        consumer.subscribe(Arrays.asList("transaction-test"));
+        consumer.subscribe(Collections.singletonList("transaction-test"));
         try {
             while (true){
                 ConsumerRecords<String,String> records=consumer.poll(Duration.ofMillis(1000));

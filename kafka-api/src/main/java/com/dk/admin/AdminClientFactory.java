@@ -23,7 +23,8 @@ public class AdminClientFactory {
         Properties prop = new Properties();
 
         // 配置Kafka服务的访问地址及端口号
-        prop.setProperty(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.32.5:9092,192.168.32.6:9092,192.168.32.7:9092");
+        //prop.setProperty(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.32.5:9092,192.168.32.6:9092,192.168.32.7:9092");
+        prop.setProperty(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "47.119.115.165:9092");
         prop.setProperty(AdminClientConfig.REQUEST_TIMEOUT_MS_CONFIG,"20000");
         prop.setProperty(AdminClientConfig.RETRIES_CONFIG,"3");
 
@@ -39,7 +40,8 @@ public class AdminClientFactory {
         Map<String, Object> conf = Maps.newHashMap();
 
         // 配置Kafka服务的访问地址及端口号
-        conf.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.32.5:9092,192.168.32.6:9092,192.168.32.7:9092");
+        //conf.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.32.5:9092,192.168.32.6:9092,192.168.32.7:9092");
+        conf.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "47.119.115.165:9092");
 
         // 创建AdminClient实例
         return AdminClient.create(conf);
