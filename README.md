@@ -361,6 +361,14 @@ OffsetAndMetadata：保存了消费者组和各个partition的offset位移信息
 
 # cmak
 
+cmak启动
+
+```shell
+./bin/cmak -Dconfig.file=conf/application.conf -Dhttp.port=8080 -java-home /usr/local/java/jdk-13/
+```
+
+
+
 kafka启动加 
 
 ```shell

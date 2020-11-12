@@ -14,7 +14,7 @@ import java.util.*;
  **/
 public class TopicManage {
     public static void main(String[] args) throws Exception {
-        createTopic(Collections.singletonList("device"));
+        createTopic(Collections.singletonList("wechat"));
 //        describeTopics(Collections.singletonList("ser-topic"));
 //        updateTopicPartition(Collections.singletonList("ser-topic"), 9);
     }
@@ -35,7 +35,7 @@ public class TopicManage {
          * short replicationFactor    副本数,必须不能大于broker数量
          */
         topicNames.forEach(topicName -> topicList.add(
-                new NewTopic(topicName, 9, Short.parseShort("3"))));
+                new NewTopic(topicName, 3, Short.parseShort("3"))));
 
         // 创建topic
         CreateTopicsResult result = adminClient.createTopics(topicList);

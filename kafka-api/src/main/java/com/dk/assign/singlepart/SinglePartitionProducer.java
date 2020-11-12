@@ -35,11 +35,11 @@ public class SinglePartitionProducer {
 
         // 全部发送到一个分区，不知道哪位幸运儿能消费到
         // 分区在 /tmp/kafka-logs2 下
-        producer.send(new ProducerRecord<String,String>("singlepartition",0,"0","0qs"));
-        producer.send(new ProducerRecord<String,String>("singlepartition",0,"1","1qs"));
-        producer.send(new ProducerRecord<String,String>("singlepartition",0,"2","2qs"));
-        producer.send(new ProducerRecord<String,String>("singlepartition",0,"3","3qs"));
-        producer.send(new ProducerRecord<String,String>("singlepartition",0,"4","4qs"));
+        producer.send(new ProducerRecord<String,String>("wechat",0,"0","0qs"));
+        producer.send(new ProducerRecord<String,String>("wechat",0,"1","1qs"));
+        producer.send(new ProducerRecord<String,String>("wechat",0,"2","2qs"));
+        producer.send(new ProducerRecord<String,String>("wechat",0,"3","3qs"));
+        producer.send(new ProducerRecord<String,String>("wechat",0,"4","4qs"));
 
         producer.close();
     }
