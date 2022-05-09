@@ -1,4 +1,4 @@
-package com.itheima.demo.config;
+package com.dk.config;
 
 import org.apache.kafka.clients.producer.Partitioner;
 import org.apache.kafka.common.Cluster;

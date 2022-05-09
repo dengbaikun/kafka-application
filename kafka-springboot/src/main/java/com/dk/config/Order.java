@@ -1,4 +1,4 @@
-package com.itheima.demo.config;
+package com.dk.config;
 
 public class Order {
     private int id;

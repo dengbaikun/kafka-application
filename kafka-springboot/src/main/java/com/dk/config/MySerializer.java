@@ -1,10 +1,7 @@
-package com.itheima.demo.config;
+package com.dk.config;
 
 import com.alibaba.fastjson.JSON;
-import org.apache.kafka.common.header.Headers;
 import org.apache.kafka.common.serialization.Serializer;
-
-import java.util.Map;
 
 public class MySerializer implements Serializer {
 

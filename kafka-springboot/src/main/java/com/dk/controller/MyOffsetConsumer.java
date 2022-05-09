@@ -1,4 +1,4 @@
-package com.itheima.demo.controller;
+package com.dk.controller;
 
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -11,8 +11,9 @@ import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.stereotype.Component;
-import java.util.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 //@Component

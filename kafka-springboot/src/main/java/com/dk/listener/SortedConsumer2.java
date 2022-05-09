@@ -1,19 +1,16 @@
-package com.itheima.demo.controller;
+package com.dk.listener;
 
 import com.alibaba.fastjson.JSON;
-import com.itheima.demo.config.Order;
+import com.dk.config.Order;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /*
 * 顺序性消费

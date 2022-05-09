@@ -1,4 +1,4 @@
-package com.itheima.demo.controller;
+package com.dk.controller;
 
 import com.itheima.demo.config.MyPartitionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
