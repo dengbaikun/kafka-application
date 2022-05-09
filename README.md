@@ -383,3 +383,123 @@ KAFKA_JMX_OPTS="-Djava.rmi.server.hostname={hostname} -Dcom.sun.management.jmxr
 fi
 ```
 
+## kafka安装
+
+docker-compose.yml 内容如下:
+
+```shell
+version: '3.8'
+services:
+  zookeeper:
+    image: zookeeper:3.7
+    ports:
+      - "2184:2181"
+    volumes:
+      - ./zookeeper/data:/data
+      - ./zookeeper/datalog:/datalog
+    restart: unless-stopped
+  kafka1:
+    image: wurstmeister/kafka:latest
+    restart: always
+    hostname: kafka1
+    container_name: kafka1
+    ports:
+      - "9092:9092"
+      - "1099:1099"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka1
+      KAFKA_LISTENERS: PLAINTEXT://kafka1:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.117.6:9092
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_ZOOKEEPER_CONNECT: 192.168.117.6:2181,192.168.117.6:2182,192.168.117.6:2183
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=192.168.117.6 -Dcom.sun.management.jmxremote.rmi.port=1099"
+      KAFKA_BROKER_ID: 1
+      JMX_PORT: 1099
+      KAFKA_DELETE_TOPIC_ENABLE: true
+      KAFKA_LOG_RETENTION_HOURS: 1
+      KAFKA_MESSAGE_MAX_BYTES: 10000000
+      KAFKA_REPLICA_FETCH_MAX_BYTES: 10000000
+      KAFKA_GROUP_MAX_SESSION_TIMEOUT_MS: 60000
+      KAFKA_NUM_PARTITIONS: 3
+      KAFKA_DELETE_RETENTION_MS: 1000
+    volumes:
+      - "./kafka/kafka1/data/:/kafka"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/etc/localtime:/etc/localtime"
+
+  kafka2:
+    image: wurstmeister/kafka:latest
+    restart: always
+    hostname: kafka2
+    container_name: kafka2
+    ports:
+      - "9093:9093"
+      - "2099:2099"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka2
+      KAFKA_LISTENERS: PLAINTEXT://kafka2:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.117.6:9093
+      KAFKA_ADVERTISED_PORT: 9093
+      KAFKA_ZOOKEEPER_CONNECT: 192.168.117.6:2181,192.168.117.6:2182,192.168.117.6:2183
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=192.168.117.6 -Dcom.sun.management.jmxremote.rmi.port=2099"
+      KAFKA_BROKER_ID: 2
+      JMX_PORT: 2099
+      KAFKA_DELETE_TOPIC_ENABLE: true
+      KAFKA_LOG_RETENTION_HOURS: 1
+      KAFKA_MESSAGE_MAX_BYTES: 10000000
+      KAFKA_REPLICA_FETCH_MAX_BYTES: 10000000
+      KAFKA_GROUP_MAX_SESSION_TIMEOUT_MS: 60000
+      KAFKA_NUM_PARTITIONS: 3
+      KAFKA_DELETE_RETENTION_MS: 1000
+    volumes:
+      - "./kafka/kafka2/data/:/kafka"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/etc/localtime:/etc/localtime"
+
+  kafka3:
+    image: wurstmeister/kafka:latest
+    restart: always
+    hostname: kafka3
+    container_name: kafka3
+    ports:
+      - "9094:9094"
+      - "3099:3099"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka3
+      KAFKA_LISTENERS: PLAINTEXT://kafka3:9094
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.117.6:9094
+      KAFKA_ADVERTISED_PORT: 9094
+      KAFKA_ZOOKEEPER_CONNECT: 192.168.117.6:2181,192.168.117.6:2182,192.168.117.6:2183
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=192.168.117.6 -Dcom.sun.management.jmxremote.rmi.port=3099"
+      KAFKA_BROKER_ID: 3
+      JMX_PORT: 3099
+      KAFKA_DELETE_TOPIC_ENABLE: true
+      KAFKA_LOG_RETENTION_HOURS: 1
+      KAFKA_MESSAGE_MAX_BYTES: 10000000
+      KAFKA_REPLICA_FETCH_MAX_BYTES: 10000000
+      KAFKA_GROUP_MAX_SESSION_TIMEOUT_MS: 60000
+      KAFKA_NUM_PARTITIONS: 3
+      KAFKA_DELETE_RETENTION_MS: 1000
+    volumes:
+      - "./kafka/kafka3/data/:/kafka"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/etc/localtime:/etc/localtime"
+
+  cmak: # Kafka 图形管理界面
+    image: vimagick/cmak
+    container_name: cmak
+    ports:
+      - "9000:9000"
+    environment:
+      ZK_HOSTS: 127.0.0.1:2184
+      KAFKA_BROKERS: 127.0.0.1:9092,127.0.0.1:9093,127.0.0.1:9094
+      KAFKA_MANAGER_AUTH_ENABLED: true
+      KAFKA_MANAGER_USERNAME: admin
+      KAFKA_MANAGER_PASSWORD: admin
+    depends_on:
+      - zookeeper
+    healthcheck:
+      test: curl -f http://127.0.0.1:9000/api/health || exit 1
+    restart: unless-stopped
+```
+
