@@ -7,22 +7,36 @@ spring:
     bootstrap-servers: 192.168.32.5:9092,192.168.32.6:9092,192.168.32.7:9092
 # producer
     producer:
-      retries: 1
-      batch-size: 16384
-      buffer-memory: 33554432
-      acks: all
       properties:
         linger:
-          ms: 5
+          ms: 5 #批量发送的等待时间
+      # 发生错误后，消息重发的次数。
+      retries: 3
+      #当有多个消息需要被发送到同一个分区时，生产者会把它们放在同一个批次里。该参数指定了一个批次可以使用的内存大小，按照字节数计算。
+      batch-size: 16384
+      # 设置生产者内存缓冲区的大小。
+      buffer-memory: 33554432
+      # 键的序列化方式
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      # 值的序列化方式
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      # acks=0 ： 生产者在成功写入消息之前不会等待任何来自服务器的响应。
+      # acks=1 ： 只要集群的首领节点收到消息，生产者就会收到一个来自服务器成功响应。
+      # acks=all ：只有当所有参与复制的节点全部收到消息时，生产者才会收到一个来自服务器的成功响应。
+      acks: all
 # consumer
     consumer:
-      auto-commit-interval: 1000
-      auto-offset-reset: earliest
-      enable-auto-commit: true
+      auto-commit-interval: 1000 # 提交offset延时(接收到消息后多久提交offset)
+      # earliest:当各分区下有已提交的offset时，从提交的offset开始消费；无提交的offset时，从头开始消费
+      # latest:当各分区下有已提交的offset时，从提交的offset开始消费；无提交的offset时，消费新产生的该分区下的数据
+      # none:topic各分区都存在已提交的offset时，从offset后开始消费；只要有一个分区不存在已提交的offset，则抛出异常
+      auto-offset-reset: latest
+      enable-auto-commit: false
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    listener:
+      type: batch # 开启批量监听
+      concurrency: 3 # 设置并发数 小于等于分区数
 logging:
   level:
     com.dk: info
